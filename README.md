@@ -22,4 +22,6 @@ xsyslib_on_linux
 ----------------
 The library I wrote following Robust Communications Software – Greg Utas
 
-
+sqldrivers
+----------
+SQL drivers for proj/radsql

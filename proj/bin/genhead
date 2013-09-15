@@ -1,0 +1,5 @@
+#!/bin/sh
+
+template=../src/radhead_h.template
+
+exec awk -f genhead.awk name=$1 $template

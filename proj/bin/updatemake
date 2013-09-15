@@ -1,0 +1,22 @@
+#!/bin/sh
+
+temp=.FINSERT_TEMPFILE_$$
+makefile=Makefile
+
+if [ $# -eq 1 ]; then
+    makefile=$1
+fi
+
+finsert -v "begin=OBJS =" -v end=OBJS_END \
+        -v "cmd=make -f $makefile po 2>/dev/null" \
+        -v "temp=$temp" \
+        $makefile
+mv $temp $makefile
+
+finsert -v begin=DEPS_BEGIN -v end=DEPS_END \
+        -v "cmd=make -f $makefile pd 2>/dev/null" \
+        -v "temp=$temp" \
+        $makefile
+mv $temp $makefile
+
+dos2unix $makefile

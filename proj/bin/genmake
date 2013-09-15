@@ -1,0 +1,5 @@
+#!/bin/sh
+
+template=../src/makefile.template
+
+exec awk -f genmake.awk rad_home=$1 $template

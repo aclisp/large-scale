@@ -1,0 +1,15 @@
+All Topics >> Java Programming >> Unedited Reader Contributions
+
+Simple LRU caching with expiration
+By Ian Schumacher 
+
+LRU caching code small enough to paste directly into your application.     Java
+Windows, Java
+Win32
+Dev 
+  Posted 30 Oct 2005 13:58 
+ Articles by this author 
+ 1,096 views 
+ 
+Note: This is an unedited reader contribution  [Modify this article] [Delete this article] 
+ 

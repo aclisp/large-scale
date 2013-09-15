@@ -1,0 +1,124 @@
+
+
+
+		UNIFORM DISTRIBUTION	 Samples=10000
+
+
+Continuous Histogram results:
+	 Interval Width = 0.1
+	 Maximum Sample = 0.999856
+	 Maximum Value = 1
+	 Minimum Sample = 0.00010401
+	 Minimum Value = 0
+	 Number of Intervals = 10
+	 Number of Samples = 10000
+
+Histogram Plotting
+	 i = 0	 y_axis = 1027
+	 i = 1	 y_axis = 987
+	 i = 2	 y_axis = 1031
+	 i = 3	 y_axis = 1031
+	 i = 4	 y_axis = 954
+	 i = 5	 y_axis = 992
+	 i = 6	 y_axis = 955
+	 i = 7	 y_axis = 972
+	 i = 8	 y_axis = 1068
+	 i = 9	 y_axis = 983
+
+
+
+		UNIFORM DISTRIBUTION	 Samples=10000
+
+
+Histogram results with Cumulative:
+	 i = 0	 x_axis = 0.00010401	 y_axis = 0.0006
+	 i = 1	 x_axis = 0.0989957	 y_axis = 0.1
+	 i = 2	 x_axis = 0.198669	 y_axis = 0.2
+	 i = 3	 x_axis = 0.295639	 y_axis = 0.3
+	 i = 4	 x_axis = 0.393689	 y_axis = 0.4
+	 i = 5	 x_axis = 0.494592	 y_axis = 0.5
+	 i = 6	 x_axis = 0.597238	 y_axis = 0.6
+	 i = 7	 x_axis = 0.701704	 y_axis = 0.7
+	 i = 8	 x_axis = 0.80591	 y_axis = 0.8
+	 i = 9	 x_axis = 0.896876	 y_axis = 0.9
+	 i = 10	 x_axis = 0.999856	 y_axis = 1
+
+
+Histogram results with Quantiles:
+	 i = 0	 x_axis = 0.0989957	 y_axis = 0.1	 deviates = 1.00514
+	 i = 1	 x_axis = 0.198669	 y_axis = 0.2	 deviates = 1.00327
+	 i = 2	 x_axis = 0.295639	 y_axis = 0.3	 deviates = 1.03125
+	 i = 3	 x_axis = 0.393689	 y_axis = 0.4	 deviates = 1.01989
+	 i = 4	 x_axis = 0.494592	 y_axis = 0.5	 deviates = 0.991054
+	 i = 5	 x_axis = 0.597238	 y_axis = 0.6	 deviates = 0.974223
+	 i = 6	 x_axis = 0.701704	 y_axis = 0.7	 deviates = 0.957243
+	 i = 7	 x_axis = 0.80591	 y_axis = 0.8	 deviates = 0.959639
+	 i = 8	 x_axis = 0.896876	 y_axis = 0.9	 deviates = 1.09932
+	 i = 9	 x_axis = 0.999856	 y_axis = 1	 deviates = 0.971055
+
+
+
+		UNIFORM DISTRIBUTION	 Samples=10000
+
+
+Descriptive Statistic results:
+	 Standard Deviation = 0.29006
+	 Variance = 0.0841348
+
+
+
+		UNIFORM DISTRIBUTION	 Samples=10000
+
+
+Mean results:
+	 Mean = 0.498404
+	 Maximum = 0.999856
+	 Minimum = 0.00010401
+	 Number of Samples = 10000
+	 Sum = 4984.04
+
+
+
+		UNIFORM DISTRIBUTION	 Samples=10000
+
+
+Quantile results:
+	 Quantile = 0.495353
+	 Maximum = 0.999856
+	 Minimum = 0.00010401
+	 Number of Samples = 10000
+	 Threshold = 0.5
+
+
+
+		UNIFORM DISTRIBUTION	 Samples=10000
+
+
+Windowed Avarage results:
+	 Windowed Average = 0.667799
+
+
+
+		RANDOM INTEGER DISTRIBUTION	 Samples=10000
+
+
+Discrete Histogram results:
+	 Interval Width = 10
+	 Maximum Sample = 100
+	 Maximum Value = 100
+	 Minimum Sample = 0
+	 Minimum Value = 0
+	 Number of Intervals = 10
+	 Number of Samples = 10000
+
+Histogram Plotting
+	 i = 0	 y_axis = 931
+	 i = 1	 y_axis = 971
+	 i = 2	 y_axis = 960
+	 i = 3	 y_axis = 1006
+	 i = 4	 y_axis = 1000
+	 i = 5	 y_axis = 1062
+	 i = 6	 y_axis = 968
+	 i = 7	 y_axis = 983
+	 i = 8	 y_axis = 970
+	 i = 9	 y_axis = 1149

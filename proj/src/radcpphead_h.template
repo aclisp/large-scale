@@ -1,0 +1,27 @@
+// -*- mode: c++ -*-
+
+/* Author:   Huanghao@cellcom
+ * Date:     ${TIMESTAMP}
+ * Revision: 0.0.1
+ * Function:
+ * Usage:
+ */
+
+#ifndef __RADFWK_${NAME}_H__
+#define __RADFWK_${NAME}_H__
+
+#include "RAD_Object.h"
+
+class RADFWK_API RAD_${Name} : public RAD_Object
+{
+public:
+    RAD_${Name}();
+    virtual ~RAD_${Name}();
+
+    void Swap(RAD_${Name}& other); /* throw() */
+    RAD_${Name}(const RAD_${Name}& );
+    RAD_${Name}& operator=(const RAD_${Name}& other)
+        { RAD_${Name} temp(other); Swap(temp); return *this; }
+};
+
+#endif // __RADFWK_${NAME}_H__

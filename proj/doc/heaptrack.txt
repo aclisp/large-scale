@@ -1,0 +1,242 @@
+网络日志  
+   
+
+  
+9月26日 
+ 
+ 
+ 
+一种简单的堆跟踪机制 
+ 
+ 一种简单的堆跟踪机制
+ 
+内存泄漏错误比较难查，如果有工具比较好办，没有工具的话就只好自己动手，丰衣足食了。下面是我用的一个简单而有效的方案，曾被人拿去检查到eCos操作系统内socket里的accept存在的内存泄漏：
+ 
+分配的时候多分配一点空间作头，记下分配的文件名和行号，把所有的头连成一个环形双链表，释放的时候从双链表中删除，并释放头。
+ 
+结束的时候只要检查这个双链表是否为空就知道哪里泄漏内存了。
+ 
+下面是基于于Windows DDK的简化代码：
+ 
+假设库提供的内存管理函数分别如下：
+// the real heap function
+void* sys_malloc(size_t size);
+void sys_free(void* p);
+ 
+那么：
+ 
+//////////////////////////////////////////////////////////////////////////
+// begin file heaptracking.h
+//////////////////////////////////////////////////////////////////////////
+// Heap tracking mechanism
+#if DBG
+void StartHeapTracking(void);
+void DumpHeapUsage(void);
+void StopHeapTracking(void);
+void* sys_malloc_track(size_t size, const char* File, unsigned int Line);
+void sys_free_track(void* mem);
+// these macros will cover real heap functions in debug version
+#define sys_malloc(size) sys_malloc_track(size, __FILE__, __LINE__)
+#define sys_free    sys_free_track
+#else
+#define StartHeapTracking()
+#define DumpHeapUsage()
+#define StopHeapTracking()
+#endif
+//////////////////////////////////////////////////////////////////////////
+// end file heaptracking.h
+//////////////////////////////////////////////////////////////////////////
+ 
+--------------------------------------------------------------------------
+ 
+//////////////////////////////////////////////////////////////////////////
+// begin file heaptracking.c
+//////////////////////////////////////////////////////////////////////////
+#if DBG
+struct HEAP_TRACKING_RECORD
+{
+    LIST_ENTRY Link;
+    size_t Size;
+    const char* File;
+    unsigned int Line;
+};
+ 
+// the doubly linked list header
+static LIST_ENTRY TrackingRecords;
+static KSPIN_LOCK TrackingRecordsLock;
+ 
+void StartHeapTracking(void)
+{
+    InitializeListHead(&TrackingRecords);
+    KeInitializeSpinLock(&TrackingRecordsLock);
+}
+ 
+void DumpHeapUsage()
+{
+    // check memory leak
+    if(!IsListEmpty(&TrackingRecords))
+    {
+        LIST_ENTRY* p;
+        for(p=TrackingRecords.Flink; p!=&TrackingRecords; p=p->Flink)
+        {
+            struct HEAP_TRACKING_RECORD* q =
+                CONTAINING_RECORD(p, struct HEAP_TRACKING_RECORD, Link);
+            DbgPrint(
+                "Memory leak: %u bytes allocated in %s:%u.\n",
+                (unsigned)q->Size,
+                q->File,
+                q->Line
+            );
+        }
+    }
+}
+ 
+void StopHeapTracking(void)
+{
+    // break here if memory leak occurs.
+    ASSERT(IsListEmpty(&TrackingRecords));
+    DumpHeapUsage();
+}
+ 
+// the following code using the real heap functions
+#undef sys_malloc
+#undef sys_free
+ 
+void* sys_malloc_track(size_t size, const char* File, unsigned int Line)
+{
+    struct HEAP_TRACKING_RECORD* mem =
+        sys_malloc(sizeof(struct HEAP_TRACKING_RECORD)+size);
+    if(mem)
+    {
+        mem->Size = size;
+        mem->File = File;
+        mem->Line = Line;
+        ExInterlockedInsertTailList(&TrackingRecords, &mem->Link, &TrackingRecordsLock);
+        return mem+1;
+    }
+    return NULL;
+}
+ 
+void sys_free_track(void* mem)
+{
+    if(mem)
+    {
+        struct HEAP_TRACKING_RECORD* p =
+            (struct HEAP_TRACKING_RECORD*)
+            ((char*)mem-sizeof(struct HEAP_TRACKING_RECORD));
+        RemoveEntryList(&p->Link);
+        sys_free(p);
+    }
+}
+#endif
+//////////////////////////////////////////////////////////////////////////
+// end file heaptracking.c
+//////////////////////////////////////////////////////////////////////////
+
+使用的时候包含heaptracking.h,
+程序开始的时候先调用StartHeapTracking初始化，然后直接用sys_malloc, sys_free分配和释放即可，结束的时候调用StopHeapTracking，就会把泄漏的内存块分配的地方大小打印出来。这样在调试版每次分配要多耗费20字节的内存。如果不定义DBG预处理符号，则等于用原来的sys_malloc和sys_free，不增加开销。
+ 
+当然也可以搞得更复杂些，比如保持一个遍历次数，每次便利的时候加1，这样更容易跟踪内存是在什么时候分配的，比如可以只dump上次dump后新分配的等等。
+ 
+代码中用了Windows DDK中的双链表函数，其他操作系统下比如Linux有类似的实现。没有的话自己写也很简单。
+ 
+代码是驱动程序中的一部分，其中的spinlock是为了保护共享资源。如果你的程序是单线程的，则可以不用加锁。
+ 
+如果你没有DDK, 那么可以参考这些双链表函数相关的代码：
+ 
+typedef struct _LIST_ENTRY {
+   struct _LIST_ENTRY *Flink;
+   struct _LIST_ENTRY *Blink;
+} LIST_ENTRY, *PLIST_ENTRY, *RESTRICTED_POINTER PRLIST_ENTRY;
+VOID
+FORCEINLINE
+InitializeListHead(
+    IN PLIST_ENTRY ListHead
+    )
+{
+    ListHead->Flink = ListHead->Blink = ListHead;
+}
+//
+//  BOOLEAN
+//  IsListEmpty(
+//      PLIST_ENTRY ListHead
+//      );
+//
+#define IsListEmpty(ListHead) \
+    ((ListHead)->Flink == (ListHead))
+ 
+VOID
+FORCEINLINE
+RemoveEntryList(
+    IN PLIST_ENTRY Entry
+    )
+{
+    PLIST_ENTRY Blink;
+    PLIST_ENTRY Flink;
+    Flink = Entry->Flink;
+    Blink = Entry->Blink;
+    Blink->Flink = Flink;
+    Flink->Blink = Blink;
+}
+PLIST_ENTRY
+FORCEINLINE
+RemoveHeadList(
+    IN PLIST_ENTRY ListHead
+    )
+{
+    PLIST_ENTRY Flink;
+    PLIST_ENTRY Entry;
+    Entry = ListHead->Flink;
+    Flink = Entry->Flink;
+    ListHead->Flink = Flink;
+    Flink->Blink = ListHead;
+    return Entry;
+}
+ 
+PLIST_ENTRY
+FORCEINLINE
+RemoveTailList(
+    IN PLIST_ENTRY ListHead
+    )
+{
+    PLIST_ENTRY Blink;
+    PLIST_ENTRY Entry;
+    Entry = ListHead->Blink;
+    Blink = Entry->Blink;
+    ListHead->Blink = Blink;
+    Blink->Flink = ListHead;
+    return Entry;
+}
+
+VOID
+FORCEINLINE
+InsertTailList(
+    IN PLIST_ENTRY ListHead,
+    IN PLIST_ENTRY Entry
+    )
+{
+    PLIST_ENTRY Blink;
+    Blink = ListHead->Blink;
+    Entry->Flink = ListHead;
+    Entry->Blink = Blink;
+    Blink->Flink = Entry;
+    ListHead->Blink = Entry;
+}
+
+VOID
+FORCEINLINE
+InsertHeadList(
+    IN PLIST_ENTRY ListHead,
+    IN PLIST_ENTRY Entry
+    )
+{
+    PLIST_ENTRY Flink;
+    Flink = ListHead->Flink;
+    Entry->Flink = Flink;
+    Entry->Blink = ListHead;
+    Flink->Blink = Entry;
+    ListHead->Flink = Entry;
+}
+ 
+ 
+ 

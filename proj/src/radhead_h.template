@@ -1,0 +1,25 @@
+/* -*- mode: c -*- */
+
+/* Author:   Huanghao@cellcom
+ * Date:     ${TIMESTAMP}
+ * Revision: 0.0.1
+ * Function:
+ * Usage:
+ */
+
+#ifndef __RAD_${NAME}_H__
+#define __RAD_${NAME}_H__
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* __RAD_${NAME}_H__ */

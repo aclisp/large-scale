@@ -1,0 +1,39 @@
+#!/bin/sh
+
+if [ "$1" = "vc" ]; then
+    cl -nologo -c -Fodynlib.o dynlib.c -I../.. -DRAD_DLL
+    cl -nologo -LD -Fedynlib_vc.dll dynlib.o
+    rm dynlib.o
+
+    cl -nologo main.c -I../.. dynlib_vc.lib
+    rm main.obj
+    ./main
+
+    cl -nologo dynmain.c -Femain.exe -I../.. ../../lib/radutil.a
+    rm dynmain.obj
+    ./main
+
+elif [ "$1" = "mingw" ]; then
+    gcc -c -o dynlib.o dynlib.c -fPIC -I../.. -DRAD_DLL
+    gcc -shared -o dynlib_mingw.dll dynlib.o
+    rm dynlib.o
+
+    gcc main.c -o main.exe -I../.. dynlib_mingw.dll
+    ./main
+
+    gcc dynmain.c -o main.exe -I../.. ../../lib/radutil.a
+    ./main
+
+elif [ "$1" = "clean" ]; then
+    rm -f dynlib_* main.exe
+else
+    gcc -c -o dynlib.o dynlib.c -fPIC -I../.. -DRAD_DLL
+    gcc -shared -o libdyn.so dynlib.o
+    rm dynlib.o
+
+    gcc main.c -o main -I../.. -L. -ldyn
+    ./main
+
+    gcc dynmain.c -o main -I../.. -ldl
+    ./main
+fi

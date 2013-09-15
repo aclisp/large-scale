@@ -1,0 +1,14 @@
+all:
+	@cd radutil; make -f Makefile.vc
+	@cd test; make -f Makefile.vc
+	@cd test; ./runtest.exe
+	@cd radsql; make -f Makefile.vc
+	@cd radsock; make -f Makefile.vc
+	@cd radfwk; make -f Makefile.vc
+
+clean:
+	@cd test; make -f Makefile.vc clean
+	@cd radutil; make -f Makefile.vc clean
+	@cd radsql; make -f Makefile.vc clean
+	@cd radsock; make -f Makefile.vc clean
+	@cd radfwk; make -f Makefile.vc clean

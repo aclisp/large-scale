@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ $# -lt 1 ]; then
+    echo "$0 dir"
+    exit 1
+fi
+
+find $1 -iregex '.+\.[hc][pxc]*' -type f -print

@@ -1,0 +1,57 @@
+2006/06/27
+----------
+
+from MSDN:
+
+     The TryEnterCriticalSection function attempts to enter a
+     critical section without blocking. If the call is successful,
+     the calling thread takes ownership of the critical section.
+
+     If the critical section is successfully entered or the
+     current thread already owns the critical section, the return
+     value is nonzero.
+
+     If another thread already owns the critical section, the
+     return value is zero.
+
+from pthread_mutex_trylock manual:
+
+     The  pthread_mutex_trylock()  function   is   identical   to
+     pthread_mutex_lock()  except that if the mutex object refer-
+     enced by mutex is currently locked (by any thread, including
+     the current thread), the call returns immediately.
+
+When I call sql_get_socket in the same thread twice, the second call
+would break in radsql.c, line 491: cur->inuse == 0.
+
+Note:
+     After a thread has ownership of a critical section, it can make
+     additional calls to EnterCriticalSection or TryEnterCriticalSection
+     without blocking its execution. This prevents a thread from
+     deadlocking itself while waiting for a critical section that it
+     already owns. The thread enters the critical section each time
+     EnterCriticalSection and TryEnterCriticalSection succeed.
+     A thread must call LeaveCriticalSection once for each time that
+     it entered the critical section.
+
+2006/01/16
+----------
+
+When I worked on project 'dbif2', I need to load multiple database
+instances which may have the same sql driver.
+
+When I closed dbif2 app, I suddenly got a crash of Access Violation.
+After tracing and debugging, I finally caught the bug:
+
+1. When 'db_pool::~db_pool' is called, it calls
+   'db_inst::~db_inst' one by one
+2. Suppose two db_inst is using the same sql driver,
+   this driver DLL/SO is loaded by 'dlopen' twice.
+   Usually, OS will do reference counting to it, so
+   this has no problem.
+3. On driver framework and implementation, an instantiate/detach
+   hook is provided as 'rlm_sql_set_logging_parameter'. in this
+   function I call 'rad_start_heap_tracking' and
+   'rad_stop_heap_tracking' in pairs. Unfortunately, these two
+   are not reference counted.
+

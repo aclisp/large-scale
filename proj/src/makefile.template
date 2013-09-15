@@ -1,0 +1,70 @@
+# -*- mode: makefile -*-
+
+# Author:   Huanghao@cellcom
+# Date:     ${TIMESTAMP}
+# Revision: 0.0.1
+# Project:
+# Usage:
+
+# Properties
+RAD_HOME = ${RAD_HOME}
+
+# Compiler
+CC = gcc
+CXX = g++
+AR = ar
+
+# Static linking libraries
+STATIC_LIBS =
+
+# Dynamic linking libraries
+LIBS =
+
+# Include directory searching path
+INCS = -I$(RAD_HOME)
+
+# Executable output
+BIN =
+ARLIB =
+
+# Intermedia objects
+OBJS = \
+# OBJS_END
+
+# Global defined macros
+DEFS =
+
+# Compiling flags
+CFLAGS = $(INCS) $(DEFS) -Wall -g
+ARFLAGS = cr
+
+# Primary entry
+all: $(ARLIB) $(BIN)
+
+# Print all objects
+po:
+	@-ls -1 *.c *.cpp | sed "$$ ! s@\.[^\.]*\$$@.o \\\\@ ; $$ s@\.[^\.]*\$$@.o@"
+
+# Print all dependencies
+pd:
+	@-$(CXX) -MM *.c *.cpp $(INCS) $(DEFS)
+
+# Clean target
+clean:
+	rm -f $(BIN) $(ARLIB) $(OBJS)
+
+# Link target
+$(BIN): $(OBJS)
+	$(CXX) $^ $(STATIC_LIBS) -o $@ $(LIBS) $(CFLAGS)
+$(ARLIB): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
+
+# Suffix rules
+.cpp.o:
+	$(CXX) -c $< -o $@ $(CFLAGS)
+.c.o:
+	$(CC) -c $< -o $@ $(CFLAGS)
+
+# Dependencies
+# DEPS_BEGIN
+# DEPS_END

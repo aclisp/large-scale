@@ -1,0 +1,228 @@
+发信人: RoachCock ( Nault Von Chen (納德·馮·陳) ), 信区: CPlusPlus
+标  题: Assert at Compile-time zz
+发信站: 水木社区 (Mon Mar 27 20:50:13 2006), 站内
+
+【 以下文字转载自 CProgramming 讨论区 】
+发信人: softsongs (红烧排骨), 信区: CProgramming
+标  题: Assert at Compile-time zz
+发信站: 水木社区 (Mon Mar 27 20:06:26 2006), 站内
+
+Publications
+
+of Jon Jagger
+
+jon@jaggersoft.com
+
+Appeared in CVu 11.3, March 1999
+
+Compile Time Assertions in C
+
+Introduction
+
+C has a facility for checking dynamic assertions at run-time. It's inside <a
+ssert.h> and its called assert. Now assert is a macro, so why isn't it calle
+d ASSERT? I don't know. Prior art no doubt. Anyway, assert is a dynamic runt
+ime feature, you can only use it inside functions.
+
+/* not inside a function, won't compile :-( */
+
+assert(sizeof(int) * CHAR_BIT >= 32);
+
+That's a pity because it would be nice if I could get the compiler to check
+things like this automatically at compile time. I've occasionally seen an at
+tempt at a compile-time check like this...
+
+#if sizeof(int) * CHAR_BIT < 32
+
+#error People of Earth. Your attention please...
+
+#endif
+
+But this doesn't work. The C preprocessor is a glorified text reformatter: i
+t knows practically nothing about C. However, there is a way to write this a
+s a compile time assertion (and moving any error trap to an earlier phase is
+ a Good Thing)
+
+{ yourself }
+
+#define COMPILE_TIME_ASSERT(expr)   \
+
+    char constraint[expr]
+
+COMPILE_TIME_ASSERT(sizeof(int) * CHAR_BIT >= 32);
+
+What's is going on here? Well, the example preprocesses to...
+
+char constraint[sizeof(int) * CHAR_BIT >= 32];
+
+If the expression is true, (an int is at least 32 bits), the expression will
+ have a value of one, and constraint will be an array of one char. If the as
+sertion is false, (an int is less than 32 bits), the expression will have a
+value of zero, and constraint will be an empty array. That's illegal, and yo
+u'll get a compile time error. Viola, a compile time assertion :-) You can u
+se it inside and outside a function but you can't use it twice in the same f
+unction, as you end up with a duplicate definition. To solve that problem yo
+u could resort to some convoluted macro trickery:
+
+#define COMPILE_TIME_ASSERT(expr)       char UNIQUE_NAME[expr]
+
+#define UNIQUE_NAME                     MAKE_NAME(__LINE__)
+
+#define MAKE_NAME(line)                 MAKE_NAME2(line)
+
+#define MAKE_NAME2(line)                constraint_ ## line
+
+But this is pretty horrible. Also, you will probably get warnings about unus
+ed variables. Take a step back for a moment and think about why it works at
+all. It's because you have to specify the size of an array as a compile time
+ constant. The formal grammar of a direct-declarator tells you this. Let's l
+ook at some bits of grammar more closely:
+
+Constrained arrays
+
+        direct-declarator:
+
+                identifier
+
+                ( declarator )
+
+                direct-declarator [ constant-expression opt ]
+
+                direct-declarator ( parameter-type-list )
+
+                direct-declarator ( identifier-list opt )
+
+I just piggy backed on this, using the constraint that the value of the cons
+tant expression cannot (in this context) be zero. A natural question (to the
+ curious) is are there other parts of the formal grammar that require a cons
+tant expression. The answer, of course, is yes.
+
+Constrained enums
+
+        enumerator:
+
+                enumeration-constant
+
+                enumeration-constant = constant-expression
+
+However, I can't use this because there are no useful constraints in this co
+ntext.
+
+Constrained bit-fields
+
+        struct-declarator:
+
+                declarator
+
+                declarator opt : constant-expression
+
+Reading the constraints of a bit field I see that if the width of a bit-fiel
+d is zero the declaration cannot have a declarator. In other words this is l
+egal...
+
+        struct x { unsigned int : 0; }
+
+but this is not...
+
+        struct x { unsigned int bf : 0; }
+
+This suggests another way to create a compile time assertion
+
+#define COMPILE_TIME_ASSERT(expr)   \
+
+    struct x { unsigned int bf : expr; }
+
+COMPILE_TIME_ASSERT(sizeof(int) * CHAR_BIT >= 32);
+
+Trying this we again get duplicate definitions, not of a variable this time,
+ but of the type struct x. However we can fix this by creating an anonymous
+struct:
+
+#define COMPILE_TIME_ASSERT(expr)   \
+
+    struct { unsigned int bf : expr; }
+
+This works. However, now you'll probably get warnings about the unused untag
+ged struct.
+
+There is one last bit of grammar that uses a constant-expression.
+
+Constrained switch
+
+        labelled-statement:
+
+                identifier : statement
+
+                case constant-expression : statement
+
+                default : statement
+
+It's well known that you can't have two case labels with the same constant.
+The following will not compile...
+
+switch (0)
+
+{
+
+case 0:
+
+case 0:;
+
+}
+
+So, here's yet another way to create a compile time assertion. This time we
+don't create a dummy variable, or a dummy type, but a dummy statement. A dum
+my switch statement:
+
+#define COMPILE_TIME_ASSERT(pred)       \
+
+    switch(0){case 0:case pred:;}
+
+COMPILE_TIME_ASSERT(sizeof(int) * CHAR_BIT >= 32);
+
+If pred evaluates to true (i.e., 1) then the case labels will be 0 and 1. Di
+fferent; Ok. If pred evaluates to false (i.e., 0) then the case labels will
+be 0 and 0. The same; Compile time error. Viola. However, a switch statement
+ cannot exist in the global scope. So the last piece of the puzzle is to put
+ the compile time assertions inside a function.
+
+#include <limits.h>
+
+#define COMPILE_TIME_ASSERT(pred)            \
+
+    switch(0){case 0:case pred:;}
+
+#define ASSERT_MIN_BITSIZE(type, size)       \
+
+    COMPILE_TIME_ASSERT(sizeof(type) * CHAR_BIT >= size)
+
+#define ASSERT_EXACT_BITSIZE(type, size)     \
+
+    COMPILE_TIME_ASSERT(sizeof(type) * CHAR_BIT == size)
+
+void compile_time_assertions(void)
+
+{
+
+    ASSERT_MIN_BITSIZE(char,  8);
+
+    ASSERT_MIN_BITSIZE(int,  16);
+
+    ASSERT_EXACT_BITSIZE(long, 32);
+
+}
+
+That's all for now.
+
+Cheers
+
+Jon Jagger
+
+jon@jaggersoft.com
+
+
+--
+Curiosity changes life.
+
+
+※ 来源:·水木社区 newsmth.net·[FROM: 135.252.136.*]

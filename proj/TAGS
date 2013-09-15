@@ -1,0 +1,756 @@
+
+radfwk/ConfMap.cpp,936
+class ConfMap::Detail 21,541
+    typedef ListMap<std::string, std::string> ConfSection;ConfMap::Detail::ConfSection24,602
+    typedef ListMap<std::string, ConfSection*> ConfSectionMap;ConfMap::Detail::ConfSectionMap26,697
+    typedef ListMap<std::string, ConfSection> ConfSectionMap;ConfMap::Detail::ConfSectionMap28,766
+    Detail(ConfMap::Detail::Detail30,835
+    ~Detail(ConfMap::Detail::~Detail33,957
+ConfMap::ConfMap(42,1110
+ConfMap::ConfMap(49,1265
+ConfMap::~ConfMap(56,1414
+const char* ConfMap::findByName(61,1457
+ConfMap::uint ConfMap::totalCount(84,2073
+const char* ConfMap::findByIndex(89,2157
+int ConfMap::addOrUpdate(112,2784
+int ConfMap::remove(158,4275
+int ConfMap::save(187,4950
+int ConfMap::save(201,5244
+int ConfMap::load(230,6221
+int ConfMap::load(248,6625
+const char* ConfMap::find(293,8342
+const char* ConfMap::find(304,8588
+const char* ConfMap::name(314,8803
+void ConfMap::clear(319,8877
+
+radfwk/ConfMap.h,104
+#define RADFWK_CONFMAP_H2,25
+class ConfMap 34,755
+    typedef unsigned int uint;ConfMap::uint37,818
+
+radfwk/Config.cpp,710
+extern "C" CONF_PARSER section_config[section_config14,220
+static void print_confhead(19,424
+class Config::Detail 45,1659
+    typedef ListMap<std::string, ConfMap*> ConfMapEntry;Config::Detail::ConfMapEntry48,1719
+    Detail(Config::Detail::Detail49,1776
+    ~Detail(Config::Detail::~Detail54,1899
+Config::Config(63,2045
+Config::Config(69,2122
+Config::~Config(76,2239
+int Config::load(104,2970
+int Config::save(138,3941
+ConfMap* Config::findConfMap(204,6172
+ConfMap* Config::addConfMap(213,6405
+void Config::delConfMap(230,6938
+void Config::delAllConfMap(239,7185
+ConfMap* Config::findConfMap(246,7397
+Config::uint Config::totalConfMap(256,7637
+main_config_t* Config::mainconfig(261,7717
+
+radfwk/Config.h,151
+#define RADFWK_CONFIG_H2,24
+typedef struct main_config_t main_config_t;9,146
+class Config 11,191
+    typedef unsigned int uint;Config::uint14,253
+
+radfwk/ListMap.hpp,902
+#define RADFWK_LISTMAP_HPP2,27
+class ListMap8,121
+    typedef std::pair<const Key, T> value_type;ListMap::value_type11,145
+    typedef std::list<value_type> rep_type;ListMap::rep_type13,202
+    typedef typename rep_type::iterator iterator;ListMap::iterator15,254
+    typedef typename rep_type::const_iterator const_iterator;ListMap::const_iterator16,304
+    typedef typename rep_type::size_type size_type;ListMap::size_type17,366
+    iterator begin(ListMap::begin19,419
+    const_iterator begin(ListMap::begin20,462
+    iterator end(ListMap::end21,517
+    const_iterator end(ListMap::end22,556
+    size_type size(ListMap::size23,606
+    void clear(ListMap::clear24,654
+    iterator find(ListMap::find26,687
+    const_iterator find(ListMap::find31,857
+    void insert(ListMap::insert37,1052
+    iterator erase(ListMap::erase38,1113
+    void erase(ListMap::erase39,1175
+
+radfwk/functors.hpp,172
+#define RADFWK_FUNCTORS_HPP2,28
+struct delete_pointer 7,103
+    void operator()(delete_pointer::operator()15,410
+    void operator()(delete_pointer::operator()25,795
+
+radfwk/noncopyable.hpp,381
+#define BOOST_NONCOPYABLE_HPP_INCLUDED10,379
+namespace boost 12,419
+namespace noncopyable_ boost::noncopyable_19,590
+  class noncopyableboost::noncopyable_::noncopyable21,650
+      noncopyable(boost::noncopyable_::noncopyable::noncopyable24,688
+      ~noncopyable(boost::noncopyable_::noncopyable::~noncopyable25,711
+typedef noncopyable_::noncopyable noncopyable;32,902
+
+radsock/log_error.c,64
+  #define WSAGetLastError(15,240
+void log_socket_error(18,284
+
+radsock/radsock.h,30
+#define __RAD_SOCK_H__11,156
+
+radsock/readline.c,82
+  #define WSAGetLastError(13,219
+  #define WSAEINTR 14,255
+int readline(22,530
+
+radsock/recvn.c,110
+  #define WSAGetLastError(13,219
+  #define WSAEINTR 14,255
+  #define SOCKET_ERROR 15,280
+int recvn(18,314
+
+radsock/send_email.c,970
+  #define WSAGetLastError(19,319
+  #define WSAEINTR 20,355
+  #define SOCKET_ERROR 21,380
+  #define closesocket(22,406
+  typedef int SOCKET;23,440
+static    const char  *OK_220=OK_22026,470
+static    const char  *OK_250=OK_25027,507
+static    const char  *OK_251=OK_25128,544
+static    const char  *OK_354=OK_35429,581
+static int send_msg(31,619
+static int recv_msg(52,1024
+#define SEND_MSG0(97,1997
+#define SEND_MSG1(98,2051
+#define SEND_MSG2(99,2113
+#define SEND_MSG3(100,2183
+#define SEND_MSG4(101,2261
+#define SEND_MSG5(102,2347
+#define SEND_MSG6(103,2441
+#define SEND_MSG7(104,2543
+#define SEND_MSG8(105,2653
+#define SEND_MSG9(106,2771
+#define RECV_MSG0(108,2898
+#define RECV_MSG1(109,2958
+#define RECV_MSG2(110,3026
+#define RECV_MSG3(111,3102
+#define RECV_MSG4(112,3186
+#define RECV_MSG5(113,3278
+#define RECV_MSG6(114,3378
+#define RECV_MSG7(115,3486
+#define RECV_MSG8(116,3602
+#define RECV_MSG9(117,3726
+int	send_email(119,3859
+
+radsock/sendn.c,110
+  #define WSAGetLastError(13,219
+  #define WSAEINTR 14,255
+  #define SOCKET_ERROR 15,280
+int sendn(18,314
+
+radsock/sock_peer_name.c,29
+char* sock_peer_name(16,247
+
+radsock/socket_init.c,103
+void socket_init(7,92
+void socket_clean(40,1164
+void socket_init(49,1342
+void socket_clean(53,1366
+
+radsock/tcp_connect.c,211
+  #define WSAGetLastError(16,262
+  #define closesocket(17,298
+  #define SOCKET_ERROR 18,332
+  #define INVALID_SOCKET 19,358
+  #define INADDR_NONE	21,408
+  typedef int SOCKET;23,450
+int tcp_connect(26,480
+
+radsock/tcp_listen.c,210
+  #define WSAGetLastError(16,262
+  #define closesocket(17,298
+  #define SOCKET_ERROR 18,332
+  #define INVALID_SOCKET 19,358
+  #define INADDR_NONE	21,408
+  typedef int SOCKET;23,450
+int tcp_listen(26,480
+
+radsock/udp_bind.c,208
+  #define WSAGetLastError(16,262
+  #define closesocket(17,298
+  #define SOCKET_ERROR 18,332
+  #define INVALID_SOCKET 19,358
+  #define INADDR_NONE	21,408
+  typedef int SOCKET;23,450
+int udp_bind(26,480
+
+radsock/udp_connect.c,211
+  #define WSAGetLastError(16,262
+  #define closesocket(17,298
+  #define SOCKET_ERROR 18,332
+  #define INVALID_SOCKET 19,358
+  #define INADDR_NONE	21,408
+  typedef int SOCKET;23,450
+int udp_connect(26,480
+
+radsql/dbutil.cpp,431
+int DBUtil::Init(5,64
+void DBUtil::Free(61,1640
+bool DBUtil::Valid(76,1903
+DBUtil::DBUtil(81,1964
+DBUtil::~DBUtil(87,2115
+int SelectFirstRowInternal(93,2157
+int SelectLastRowInternal(127,3073
+int DBUtil::SelectFirstRow(163,3914
+int DBUtil::SelectLastRow 180,4342
+int DBUtil::QueryForInt(197,4768
+int DBUtil::QueryForString(219,5283
+int DBUtil::Query(245,5952
+int DBUtil::Execute(294,7088
+void DBUtil::report(325,7827
+
+radsql/dbutil.hpp,166
+#define RAD_DBUTIL_HPP2,23
+class DBUtil9,121
+    typedef std::vector<std::string> Row;DBUtil::Row12,144
+    typedef std::deque<Row> RowSet;DBUtil::RowSet13,186
+
+radsql/radsql.c,635
+static const char *allowed_chars allowed_chars13,237
+static CONF_PARSER module_config[module_config15,279
+static CONF_PARSER log_config[log_config43,1446
+int rlm_sql_init(61,2235
+int sql_escape_func(76,2531
+int rlm_sql_detach(117,3359
+int rlm_sql_instantiate(195,5384
+int rlm_sql_destroy(290,8500
+static int connect_single_socket(303,8888
+static int sql_init_socketpool(334,9936
+static int sql_close_socket(395,11770
+static void sql_poolfree(429,12840
+SQLSOCK * sql_get_socket(449,13320
+int sql_release_socket(606,18043
+int rlm_sql_fetch_row(639,19111
+int rlm_sql_query(680,20286
+int rlm_sql_select_query(722,21460
+
+radsql/radsql.h,831
+#define __RAD_SQL_H__11,155
+  #define _WIN32_WINNT 17,271
+  #define HAVE_WIN32THREAD_H19,374
+#define MAX_QUERY_LEN 31,540
+#define SQLTRACELEVEL 32,577
+#define SQL_DOWN 35,632
+#define MAX_SQL_SOCKS 38,705
+typedef struct log_config 55,1376
+} LOG_CONFIG;61,1515
+typedef struct sql_config 63,1530
+} SQL_CONFIG;79,1900
+typedef char** SQL_ROW;81,1915
+typedef struct sql_socket 83,1940
+    enum { sockconnected,92,2155
+    enum { sockconnected, sockunconnected 92,2155
+} SQLSOCK;96,2243
+typedef struct rlm_sql_module_t 98,2255
+} rlm_sql_module_t;115,3406
+typedef struct sql_inst 117,3427
+} SQL_INST;126,3700
+#define rlm_sql_num_fields(137,4068
+#define rlm_sql_finish_select_query(139,4174
+#define rlm_sql_finish_query(141,4298
+#define rlm_sql_affected_rows(143,4408
+#define rlm_sql_set_logging_parameter(145,4520
+
+radutil/radarray.c,207
+unsigned int lrad_shift_get_push_back_index(3,22
+unsigned int lrad_shift_get_push_front_index(21,464
+unsigned int lrad_shift_get_pop_back_index(38,888
+unsigned int lrad_shift_get_pop_front_index(56,1326
+
+radutil/radarray.h,258
+#define __RAD_ARRAY_H__11,206
+typedef struct _lrad_shift_entry lrad_shift_entry;18,314
+struct _lrad_shift_entry 20,366
+#define LRAD_SHIFT_TOINFI 25,439
+#define LRAD_SHIFT_INCIDX(26,479
+#define LRAD_SHIFT_DECIDX(27,544
+#define LRAD_SHIFT_LENGTH(28,609
+
+radutil/radcommon.c,132
+int          lrad_str2int 4,42
+const char * lrad_int2str 21,332
+const char * lrad_stra2b 38,619
+const char * lrad_strb2a 55,910
+
+radutil/radcommon.h,162
+#define __RAD_COMMON_H__11,158
+typedef struct _LRAD_NAME_NUMBER 17,242
+} LRAD_NAME_NUMBER;20,323
+typedef struct _LRAD_NAME_MAP 33,587
+} LRAD_NAME_MAP;36,665
+
+radutil/radconffile.c,1501
+typedef enum conf_type 7,100
+    CONF_ITEM_PAIR,8,125
+    CONF_ITEM_SECTION9,145
+} CONF_ITEM_TYPE;10,167
+struct conf_item 12,186
+struct conf_pair 18,307
+struct conf_part 24,407
+CONF_PAIR *cf_itemtopair(cf_itemtopair34,589
+CONF_SECTION *cf_itemtosection(cf_itemtosection41,746
+CONF_ITEM *cf_pairtoitem(cf_pairtoitem48,915
+CONF_ITEM *cf_sectiontoitem(cf_sectiontoitem54,1028
+static CONF_PAIR *cf_pair_alloc(cf_pair_alloc64,1182
+static void cf_pair_free(83,1625
+static CONF_SECTION *cf_section_alloc(cf_section_alloc103,1934
+void cf_section_free(124,2445
+static void cf_item_add(160,3169
+static const char *cf_expand_variables(cf_expand_variables176,3464
+int cf_section_parse(378,9358
+static CONF_SECTION *cf_section_read(cf_section_read525,13845
+CONF_SECTION *conf_read(conf_read777,20630
+CONF_PAIR *cf_pair_find(cf_pair_find809,21505
+char *cf_pair_attr(cf_pair_attr831,21938
+char *cf_pair_value(cf_pair_value840,22061
+char *cf_section_name1(cf_section_name1849,22195
+char *cf_section_name2(cf_section_name2858,22345
+char *cf_section_value_find(cf_section_value_find866,22483
+CONF_PAIR *cf_pair_find_next(cf_pair_find_next881,22792
+CONF_SECTION *cf_section_sub_find(cf_section_sub_find910,23390
+CONF_SECTION *cf_subsection_find_next(cf_subsection_find_next934,23934
+CONF_ITEM *cf_item_find_next(cf_item_find_next966,24638
+int cf_section_lineno(980,24914
+int cf_pair_lineno(985,25010
+int cf_item_is_section(990,25091
+int dump_config_section(999,25264
+
+radutil/radconffile.h,444
+#define __RAD_CONFFILE_H__11,160
+typedef struct conf_item CONF_ITEM;20,317
+typedef struct conf_pair CONF_PAIR;21,353
+typedef struct conf_part CONF_SECTION;22,389
+#define PW_TYPE_STRING_PTR 29,604
+#define PW_TYPE_BOOLEAN 30,636
+#define PW_TYPE_SUBSECTION 31,668
+#define PW_TYPE_INTEGER 32,700
+#define PW_TYPE_IPADDR 33,732
+typedef struct CONF_PARSER 35,765
+} CONF_PARSER;41,1062
+#define XStringify(44,1158
+#define Stringify(45,1183
+
+radutil/raddebug.c,27
+void rad_assert_fail(4,42
+
+radutil/raddebug.h,146
+#define __RAD_DEBUG_H__9,134
+  #define rad_assert(20,384
+  #define rad_verify(21,421
+  #define rad_assert(23,461
+  #define rad_verify(25,558
+
+radutil/radheaptrack.c,711
+#define CONTAINING_RECORD(14,382
+typedef struct _rad_heap_tracking_record18,517
+} rad_heap_tracking_record;24,648
+static lrad_ring_entry tracking_records 27,720
+static rad_lock_t lock;28,776
+void rad_start_heap_tracking(30,801
+void rad_dump_heap_usage(36,907
+void rad_stop_heap_tracking(53,1413
+void *rad_malloc_track(rad_malloc_track62,1643
+void  rad_free_track(90,2338
+char *rad_strdup_track(rad_strdup_track103,2657
+void lrad_ring_init_head(120,3022
+int  lrad_ring_is_empty(125,3111
+void lrad_ring_remove_entry(130,3194
+lrad_ring_entry* lrad_ring_remove_head(140,3399
+lrad_ring_entry* lrad_ring_remove_tail(151,3633
+void lrad_ring_insert_tail(162,3867
+void lrad_ring_insert_head(172,4092
+
+radutil/radheaptrack.h,205
+#define __RAD_HEAPTRACK_H__11,161
+typedef struct _lrad_ring_entry lrad_ring_entry;18,266
+struct _lrad_ring_entry 20,316
+#define rad_malloc(38,1027
+#define rad_free(39,1095
+#define rad_strdup(40,1137
+
+radutil/radipc.c,932
+sem_t rad_semget(18,283
+int   rad_semop 61,1405
+void  rad_semdel(123,3368
+shm_t rad_shmget(136,3672
+void *rad_shmat rad_shmat184,4975
+void  rad_shmdt 205,5506
+void  rad_shmdel(218,5799
+sem_t rad_semget(234,6148
+    union semun 239,6247
+int   rad_semop 307,7998
+void  rad_semdel(374,9592
+shm_t rad_shmget(387,9837
+void *rad_shmat rad_shmat427,10792
+void  rad_shmdt 443,11141
+void  rad_shmdel(451,11310
+#define QUEUE_DATABUF_SIZE 466,11586
+typedef struct _QUEUE_DATA 468,11619
+} QUEUE_DATA;471,11706
+typedef struct _QUEUE 473,11721
+} QUEUE;476,11797
+typedef struct _QUEUE_NODE 478,11807
+} QUEUE_NODE;480,11851
+typedef struct _QUEUE_MAP 482,11866
+} QUEUE_MAP;486,11957
+#define QUEUE_MAP_MAXSIZE 488,11971
+#define QUEUE_MAXSIZE 489,11999
+#define QUEUE(491,12026
+msq_t* rad_msgget(495,12209
+int    rad_msgsnd(603,15116
+int    rad_msgrcv(660,16924
+void   rad_msgdel(717,18754
+void   rad_msgdmp(732,18989
+
+radutil/radipc.h,536
+#define __RAD_IPC_H__11,155
+#define RADIPC_CREAT 17,236
+#define RADIPC_EXCL 18,263
+typedef int          sem_key_t;20,291
+typedef unsigned int sem_t;21,323
+#define NULL_SEM 22,351
+#define EXIST_SEM 23,381
+#define RADIPC_WAIT_INFINITE 24,411
+typedef int          shm_key_t;30,600
+typedef unsigned int shm_t;31,632
+#define NULL_SHM 32,660
+#define EXIST_SHM 33,690
+#define RADIPC_SHM_RDONLY 34,720
+typedef struct _msq_key_t 41,920
+} msq_key_t;44,992
+typedef struct _msq_t 46,1006
+} msq_t;50,1075
+#define EXIST_MSQ 52,1085
+
+radutil/radlog.c,541
+  #define HAVE_SYSLOG_H10,211
+#define HAVE_VSNPRINTF17,373
+int           radlog_debug_flag 19,397
+radlog_dest_t radlog_dest 20,446
+char          radlog_dir 21,507
+char          radlog_file 22,557
+char          radlog_progname 23,614
+int           radlog_level_hold 24,670
+int           radlog_print_millisec 25,719
+static LRAD_NAME_NUMBER levels[levels30,802
+void radlog_set_logfile(43,1153
+static void convert_logfilename(76,2004
+int vradlog(116,2918
+int radlog_debug(337,8400
+int radlog_trace(349,8543
+int radlog(361,8686
+
+radutil/radlog.h,969
+#define __RAD_LOG_H__11,155
+#define L_TRACE 19,268
+#define L_DEBUG 20,316
+#define L_INFO 21,364
+#define L_WARN 22,412
+#define L_ERROR 23,460
+#define L_FATAL 24,508
+#define L_CONS 25,556
+typedef enum _radlog_dest_t 27,605
+  RADLOG_FILES 28,635
+  RADLOG_SYSLOG,29,655
+  RADLOG_STDOUT,30,672
+  RADLOG_STDERR,31,689
+  RADLOG_NULL32,706
+} radlog_dest_t;33,720
+#define DEBUG 58,1598
+#define DEBUG2 60,1695
+#define DEBUG3 62,1792
+#define DEBUG4 64,1889
+#define DEBUG5 66,1986
+#define TRACE 69,2084
+#define TRACE2 71,2156
+#define TRACE3 73,2228
+#define TRACE4 75,2300
+#define TRACE5 77,2372
+RAD_EXTERN_C int           radlog_debug_flag;87,2525
+RAD_EXTERN_C radlog_dest_t radlog_dest;88,2571
+RAD_EXTERN_C char          radlog_dir 89,2611
+RAD_EXTERN_C char          radlog_file 90,2669
+RAD_EXTERN_C char          radlog_progname 91,2727
+RAD_EXTERN_C int           radlog_level_hold;92,2784
+RAD_EXTERN_C int           radlog_print_millisec;93,2830
+
+radutil/radmacros.h,929
+#define __RAD_MACROS_H__9,135
+#    define NULL 22,479
+#    define NULL 24,535
+  #define rad_lock_t 39,838
+  #define rad_lock_init(40,863
+  #define rad_lock_acquire(41,904
+  #define rad_lock_release(42,948
+  #define rad_lock_destroy(43,992
+  #define rad_lock_t 45,1064
+  #define rad_lock_init(46,1102
+  #define rad_lock_acquire(47,1166
+  #define rad_lock_release(48,1228
+  #define rad_lock_destroy(49,1290
+  #define rad_lock_t 51,1359
+  #define rad_lock_init(52,1396
+  #define rad_lock_acquire(53,1476
+  #define rad_lock_release(54,1553
+  #define rad_lock_destroy(55,1632
+    #define RAD_SYMBOL 69,2255
+    #define RAD_SYMBOL 71,2331
+    #define RAD_SYMBOL73,2406
+    #define RAD_SYMBOL81,2728
+  #define RAD_SYMBOL84,2786
+#define for 89,2885
+#define strscpy(95,3165
+#define baseptrof(99,3404
+#define dimof(103,3558
+#define vsizeof(106,3661
+#define RAD_EXTERN_C 114,3861
+#define RAD_EXTERN_C 116,3918
+
+radutil/radplatform.h,731
+#define __RAD_PLATFORM_H__9,137
+  #define RAD_OS_WIN3217,346
+  #define RAD_OS 18,369
+  #define RAD_OS_LINUX20,451
+  #define RAD_OS 21,474
+  #define RAD_OS_UNIX23,500
+  #define RAD_OS 24,522
+#define _REENTRANT29,674
+  #define RAD_COMPILER_VC33,773
+  #define RAD_COMPILER 34,799
+    #define RAD_COMPILER_VC636,849
+    #define RAD_COMPILER_VC738,903
+    #define RAD_COMPILER_VC7140,957
+  #define RAD_COMPILER_GCC43,1020
+  #define RAD_COMPILER 44,1047
+    #define RAD_COMPILER_GCC246,1094
+    #define RAD_COMPILER_GCC348,1146
+    #define RAD_COMPILER_GCC450,1198
+  #define RAD_COMPILER_UNKNOWN53,1243
+  #define RAD_COMPILER 54,1274
+  #define RAD_VC59,1393
+  #define RAD_MINGW 61,1459
+  #define RAD_POSIX 63,1572
+
+radutil/radposix.c,399
+struct tm *localtime_r(localtime_r31,691
+int gettimeofday(37,837
+int strerror_r(46,1005
+char *strtok_r(strtok_r72,1591
+void *dlopen dlopen124,2973
+const char *dlerror(dlerror129,3066
+void *dlsym(dlsym136,3197
+int dlclose 141,3302
+int pthread_create(146,3384
+int pthread_join(173,4409
+void Sleep(208,5430
+int inet_aton(220,5666
+char *strsep(strsep243,6347
+int strerror_r(274,6837
+
+radutil/radposix.h,614
+#define __RAD_POSIX_H__11,157
+#define strcasecmp(20,291
+#define strncasecmp(21,330
+#define snprintf 22,377
+#define vsnprintf 23,404
+#define mkdir(25,453
+#define mkdir(30,542
+#define RTLD_NOW 40,913
+#define RTLD_GLOBAL 41,935
+typedef struct _pthread_t 48,1168
+} pthread_t;51,1235
+typedef struct _pthread_attr_t pthread_attr_t;52,1248
+#define THREAD_CALLBACK 56,1485
+#define THREAD_ID(57,1529
+#define THREAD_SELFID(58,1565
+#define PROCESS_SELFID(59,1613
+#define sleep(60,1662
+#define THREAD_CALLBACK 62,1701
+#define THREAD_ID(63,1733
+#define THREAD_SELFID(64,1763
+#define PROCESS_SELFID(65,1805
+
+radutil/radslist.c,48
+lrad_slist *lrad_slist_add(lrad_slist_add3,22
+
+radutil/radslist.h,103
+#define __RAD_SLIST_H__11,157
+typedef struct _lrad_slist lrad_slist;17,240
+struct _lrad_slist19,280
+
+radutil/radtoken.c,183
+static const LRAD_NAME_NUMBER tokens[tokens6,80
+#define TOKEN_MATCH(35,931
+LRAD_TOKEN gettok(46,1283
+int getword(188,4529
+int getbareword(197,4734
+LRAD_TOKEN gettoken(212,4994
+
+radutil/radtoken.h,950
+#define __RAD_TOKEN_H__11,157
+typedef enum lrad_token_t 19,272
+  T_INVALID 20,300
+  T_EOL,21,352
+  T_LCBRACE,22,402
+  T_RCBRACE,23,467
+  T_LBRACE,24,533
+  T_RBRACE,25,596
+  T_LABRACE,26,660
+  T_RABRACE,27,725
+  T_LSBRACE,28,791
+  T_RSBRACE,29,857
+  T_COMMA,30,924
+  T_SEMICOLON,31,964
+  T_COLON,32,1004
+  T_OP_ADD,34,1045
+  T_OP_SUB,35,1086
+  T_OP_SET,36,1127
+  T_OP_EQ,37,1168
+  T_OP_NE,38,1208
+  T_OP_GE,39,1249
+  T_OP_GT,40,1290
+  T_OP_LE,41,1330
+  T_OP_LT,42,1371
+  T_OP_REG_EQ,43,1411
+  T_OP_REG_NE,44,1452
+  T_OP_CMP_TRUE,45,1493
+  T_OP_CMP_FALSE,46,1534
+  T_OP_CMP_EQ,47,1575
+  T_OP_AND,48,1616
+  T_OP_OR,49,1657
+  T_HASH,50,1698
+  T_BRVBAR,51,1738
+  T_AMP,52,1804
+  T_BARE_WORD,53,1860
+  T_DOUBLE_QUOTED_STRING,54,1908
+  T_SINGLE_QUOTED_STRING,55,1952
+  T_BACK_QUOTED_STRING,56,1996
+  T_TOKEN_LAST57,2040
+} LRAD_TOKEN;58,2055
+#define T_EQSTART 60,2070
+#define T_EQEND 61,2099
+#define T_WORD(62,2137
+
+radutil/radtypes.h,277
+#define __RAD_TYPES_H__9,134
+typedef signed char int8_t;28,473
+typedef unsigned char   uint8_t;29,501
+typedef short  int16_t;30,534
+typedef unsigned short  uint16_t;31,558
+typedef int  int32_t;32,592
+typedef unsigned   uint32_t;33,614
+typedef unsigned uintptr_t;36,672
+
+radutil/radutil.c,366
+  #define INADDR_NONE	12,236
+char* strNcpy(16,286
+char* strNcat(27,493
+int sNprintf(35,674
+int vsNprintf(57,1003
+int trim_adjust(74,1279
+char *ip_ntoa(ip_ntoa95,1726
+uint32_t ip_getaddr(111,2065
+uint32_t ip_addr(167,3630
+int     librad_dodns 181,3897
+char * ip_hostname(183,3924
+int print_file(227,5116
+char* strRepl(245,5485
+#define BUFSIZE 251,5668
+
+radutil/radutil.h,73
+#define __RAD_UTIL_H__11,156
+RAD_EXTERN_C int     librad_dodns;52,1464
+
+test/dso/dynlib.c,28
+int var 4,41
+int fun(7,66
+
+test/dso/dynmain.c,65
+typedef int (* fun_t)8,145
+void dlcall(10,171
+int main(36,774
+
+test/dso/main.c,44
+RAD_EXTERN_C int var;5,61
+int main(10,120
+
+test/radtest.cpp,67
+lrad_bootlink* lrad_bootlink::first 5,62
+void rad_run_test(7,107
+
+test/radtest.h,214
+#define __RAD_TEST_H__11,158
+typedef void (* lrad_test_func)13,182
+struct lrad_bootlink 15,218
+    lrad_bootlink(16,261
+struct lrad_bootlink_init 25,465
+    lrad_bootlink_init(26,493
+#define RAD_TEST(32,665
+
+test/test_array.cpp,450
+typedef struct _SHIFT_ARRAY 6,82
+#define SHIFT_ARRAY_MAXCNT 7,112
+} SHIFT_ARRAY;10,203
+void shift_array_init(12,219
+void shift_array_push_back(17,303
+void shift_array_push_front(26,555
+int shift_array_pop_back(35,811
+int shift_array_pop_front(46,1137
+void shift_array_dump(57,1467
+RAD_TEST(78,2000
+RAD_TEST(134,4094
+RAD_TEST(180,5776
+RAD_TEST(229,7321
+RAD_TEST(268,8498
+    typedef struct _USER_INFO 270,8517
+    } USER_INFO;274,8622
+
+test/test_common.cpp,167
+static const LRAD_NAME_MAP names[names8,103
+RAD_TEST(19,356
+RAD_TEST(25,511
+static const LRAD_NAME_NUMBER tokens[tokens31,682
+RAD_TEST(42,923
+RAD_TEST(48,1063
+
+test/test_heaptrack.cpp,148
+static void* mem0 4,43
+static void* mem1 5,69
+static void* mem2 6,95
+static void* mem3 7,121
+RAD_TEST(11,214
+RAD_TEST(17,275
+RAD_TEST(23,336
+
+test/test_main.cpp,149
+static void socket_init(6,91
+static void socket_clean(39,1170
+static void socket_init(47,1354
+static void socket_clean(48,1383
+int main(52,1442
+
+test/test_token.cpp,158
+RAD_TEST(8,103
+    typedef struct _expr_t 10,123
+    } expr_t;14,216
+RAD_TEST(45,903
+RAD_TEST(85,2427
+RAD_TEST(112,3139
+#define GETWORD_INPUT 114,3159
+
+test/test_util.cpp,111
+RAD_TEST(12,203
+RAD_TEST(57,1767
+RAD_TEST(120,3993
+RAD_TEST(146,5029
+RAD_TEST(160,5404
+RAD_TEST(169,5564

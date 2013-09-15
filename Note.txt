@@ -1,0 +1,6 @@
+Reference Only:
+
+- xsyslib_on_linux does not support SMP
+- proj radipc ReleaseSemaphore has a bug if semop < -1
+- APR does not have Semaphore wrappers
+

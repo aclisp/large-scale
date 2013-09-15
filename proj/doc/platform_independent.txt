@@ -1,0 +1,146 @@
+Re: newbie question, where is a list of defines like __sparc and __linux ?
+To: weiss at clearway dot com 
+Subject: Re: newbie question, where is a list of defines like __sparc and __linux ? 
+From: "Martin v. Loewis" <martin at loewis dot home dot cs dot tu-berlin dot de> 
+Date: Fri, 7 Jan 2000 09:38:36 +0100 
+CC: gcc at gcc dot gnu dot org 
+References: <387517A5.C2FD11EB@clearway.com> 
+
+--------------------------------------------------------------------------------
+
+>     I'm doing cross platform development and want to be able to pretty
+> specifically define what is and is not compiled in my builds.
+> Looking through the source code I see defines like __sparc and __linux
+> but I can't find a definitive list of all the viable platform/os defines
+> that I can
+> #ifdef with in my code .. where is such a list of one exists?
+
+If you have gcc for the target system installed, you can do 'gcc -v
+a.c'. This shows how cpp is invoked, including all defines given to
+cpp.
+
+Alternatively, you can use 'gcc -dumpspecs'. The relevant sections are
+- cpp (which includes cpp_cpu)
+- predefines
+- cpp_* (the relevant section is selected by cpp_cpu_default, or -mcpu
+  command line options)
+
+If you want to see the predefines for an architectures for which you
+don't have a gcc installed, go to the gcc/config directory, and do
+
+grep CPP_PREDEFINES * */*
+grep CPP_CPU * */*
+
+Which one of those is used depends on the target.
+
+Regards,
+Martin
+
+bernard07-29-2003, 01:19 AM
+Hi Ferris,
+
+Thanks for this patch. I am integrating it to our Ice 1.1 patch branch ... although we can't test it, we'll try not to break it.
+
+I have 2 questions: What is the license for the new IceAtomic.c? Without a suitable license, we can't include it in Ice.
+
+We're trying to be consistent with macro names, e.g. use consistently __linux, not sometimes __linux and sometimes __linux__ (see the table below; maybe it should be included somewhere in the Ice distribution). In your patch you used __linux__ and __sparc__; is this because __linux and/or __sparc are not defined on Linux/SPARC?
+Thanks,
+Bernard
+
+
+Macro Meaning Notes
+---------------------------------------------------------------------------------------
+_WIN32 Windows Even defined on Windows 64 bits! 
+_WIN64 Windows 64 bits 
+__linux Linux 
+__sun Solaris 
+_WIN32 and _M_IX86 Windows on x86 
+_WIN32 and _M_IA64 Windows on IA64 
+__linux and __i386 Linux on x86 
+__linux and __x86_64 Linux on AMD Opteron 
+(64 bit mode) 
+__sun and __i386 Solaris on x86 
+__sun and __sparc Solaris on SPARC 
+__sun and __sparcv9 Solaris on SPARC in 
+64 bit mode 
+_MSC_VER Visual C++ 1200 for VC++ 6.0, 1300 for VC++7.0 
+(.NET), 1310 for VC++7.1 (.NET 2003) 
+__GNUC__ GCC 2 for GCC 2.x, 3 for GCC 3.x 
+__SUNPRO_CC Sun C++ 0x540 for Sun C++ 5.4 
+__INTEL_COMPILER Intel C++ 700 for Intel C++ 7.0
+
+--------------------------------------------------------------------------------
+
+fmccor07-29-2003, 09:02 AM
+Bernard, thanks for the response. Here's the information you asked for:
+
+
+
+So far as the actual source file IceAtomic.c goes, I wrote it, and so far as I am concerned anyone can have it. However, the 8 lines of assembly for __atomic_add,
+__atomic_sub are taken from the linux kernel routine 
+linux/arch/sparc64/lib/atomic.S and anyone using IceAtomic.c would (or could)
+already have that on his system.
+
+So far as I know, the exchange_add part is "new" (for what it's worth), but in each
+case we are talking about how to wrap the "cas" ("compare-and-swap") instruction.
+
+Bottom line: I appropriated some linux kernel code for use directly by Ice on linux
+because I had to look at the kernel to see how to do the atomic operations for sparc64, and once you see how, there isn't any other way to do them.
+
+By publishing this as part of a proposed patch (enhancement) for Ice to the Ice community as a whole (i.e., on this and on other Ice forums), I intentionally
+relinquished any derivative rights I might ever have acquired. But the code is a derivative work of the linux kernel itself, I suppose, since that's where I found most of it.
+
+The compiler is just GNU/gcc-3.2.3 running on a sparc linux system. Relevant for Ice,
+it defines:
+
+__linux__
+__linux
+__sparc__
+__sparc_v9__ (or not, depending on compiler flag, but this matters only for what
+instructions are available. E.g., the "cas" of the first item is not available without the
+compiler flag '-mcpu=ultrasparc' (equivalently, '-mcpu=v9').)
+
+I used '__linux__' because a long time ago the compiler did not define all variations,
+and for symmetry with '__sparc__' (gcc doesn't define '__sparc', nor does it define
+'__sun.' For what it's worth, older versions of gcc do define '__sparc' and
+'__sun'; at least they do on Solaris.).
+
+Here's everything the compiler defines:
+
+========
+ferris@lacewing:SIM/Simula/GROCER [294]% g++ -c -v c.cc -mcpu=ultrasparc
+Reading specs from /usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/specs
+Configured with: /var/tmp/portage/gcc-3.2.3-r1/work/gcc-3.2.3/configure
+--prefix=/usr --bindir=/usr/sparc-unknown-linux-gnu/gcc-bin/3.2 --includedir=/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/include
+--datadir=/usr/share/gcc-data/sparc-unknown-linux-gnu/3.2 --mandir=/usr/share/gcc-data/sparc-unknown-linux-gnu/3.2/man --infodir=/usr/share/gcc-data/sparc-unknown-linux-gnu/3.2/info --enable-shared --host=sparc-unknown-linux-gnu --target=sparc-unknown-linux-gnu --with-system-zlib --enable-languages=c,c++,ada,f77,objc,java --enable-threads=posix --enable-long-long --disable-checking --enable-cstdio=stdio --enable-clocale=generic --enable-__cxa_atexit --enable-version-specific-runtime-libs --with-gxx-include-dir=/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/include/g++-v3 --with-local-prefix=/usr/local --enable-shared --enable-nls --without-included-gettext
+Thread model: posix
+gcc version 3.2.3 20030422 (Gentoo Linux 1.4 3.2.3-r1, propolice)
+/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/cc1plus -v -D__GNUC__=3 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=3 -D__GXX_ABI_VERSION=102 -D__ELF__ -Dunix -D__sparc__ -D__gnu_linux__ -Dlinux -D__ELF__ -D__unix__ -D__sparc__ -D__gnu_linux__ -D__linux__ -D__unix -D__linux -Asystem=unix -Asystem=posix -D__NO_INLINE__ -D__STDC_HOSTED__=1 -D_GNU_SOURCE -D__sparc_v9__ -D__GCC_NEW_VARARGS__ -Acpu=sparc -Amachine=sparc c.cc -D__GNUG__=3 -D__DEPRECATED -D__EXCEPTIONS -quiet -dumpbase c.cc -mcpu=ultrasparc -version -o /tmp/ccpb8AbJ.s
+GNU CPP version 3.2.3 20030422 (Gentoo Linux 1.4 3.2.3-r1, propolice) (cpplib) (sparc GNU/Linux with ELF)
+GNU C++ version 3.2.3 20030422 (Gentoo Linux 1.4 3.2.3-r1, propolice) (sparc-unknown-linux-gnu)
+compiled by GNU C version 3.2.3 20030422 (Gentoo Linux 1.4 3.2.3-r1, propolice).
+#include "..." search starts here:
+#include <...> search starts here:
+/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/include/g++-v3
+/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/include/g++-v3/sparc-unknown-linux-gnu
+/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/include/g++-v3/backward
+/usr/local/include
+/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/include
+/usr/sparc-unknown-linux-gnu/include
+/usr/include
+End of search list.
+/usr/lib/gcc-lib/sparc-unknown-linux-gnu/3.2.3/../../../../sparc-unknown-linux-gnu/bin/as -V -Qy -s -Av9a -relax -o c.o /tmp/ccpb8AbJ.s
+GNU assembler version 2.14.90.0.2 (sparc-unknown-linux-gnu) using BFD version 2.14.90.0.2 20030515
+
+=========
+
+So, '__linux' is defined, but '__sparc' isn't, and I knew that gcc always defines the
+'__xxx__' forms, no matter what else. I didn't know off hand if gcc defined '__linux',
+and I didn't bother to check. Changing '__linux__' -> '__linux' is OK, but you're stuck
+with '__sparc__'
+
+
+
+Hope this helps.
+
+Regards,

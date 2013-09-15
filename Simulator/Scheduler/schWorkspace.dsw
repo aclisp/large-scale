@@ -1,0 +1,256 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "Common"=.\Common\Common.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/Common", DIAAAAAA
+    .\Common
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "FunctionEvaluator"=.\FunctionEvaluator\FunctionEvaluator.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/FunctionEvaluator", PQBAAAAA
+    .\FunctionEvaluator
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "FunctionEvaluatorTest"=.\FunctionEvaluatorTest\FunctionEvaluatorTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/FunctionEvaluatorTest", TQBAAAAA
+    .\FunctionEvaluatorTest
+    end source code control
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name FunctionEvaluator
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RandomTest"=.\RandomTest\RandomTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/RandomTest", UNAAAAAA
+    .\RandomTest
+    end source code control
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name RandomVariableGeneration
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "RandomVariableGeneration"=.\RandomVariableGeneration\RandomVariableGeneration.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/RandomVariableGeneration", HIAAAAAA
+    .\RandomVariableGeneration
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SchedulerTest"=.\SchedulerTest\SchedulerTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/SchedulerTest", WNAAAAAA
+    .\SchedulerTest
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SimulationManagement"=.\SimulationManagement\SimulationManagement.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/SimulationManagement", IJAAAAAA
+    .\SimulationManagement
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "SimulationTest"=.\SimulationTest\SimulationTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/SimulationTest", BOAAAAAA
+    .\SimulationTest
+    end source code control
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name SimulationManagement
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "StatisticsCalculation"=.\StatisticsCalculation\StatisticsCalculation.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/StatisticsCalculation", VJAAAAAA
+    .\StatisticsCalculation
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "StatisticsTest"=.\StatisticsTest\StatisticsTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/StatisticsTest", OJBAAAAA
+    .\StatisticsTest
+    end source code control
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name StatisticsCalculation
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "TraceAndLog"=.\TraceAndLog\TraceAndLog.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/TraceAndLog", HKAAAAAA
+    .\TraceAndLog
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TraceLogTest"=.\TraceLogTest\TraceLogTest.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace/TraceLogTest", EOAAAAAA
+    .\TraceLogTest
+    end source code control
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name TraceAndLog
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "UnixFiles"=.\UnixFiles\UnixFiles.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "unixScheduler"=..\unixScheduler\unixScheduler.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+    begin source code control
+    unixScheduler
+    ..
+    end source code control
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+    begin source code control
+    "$/RRM/Scheduler/source/schWorkspace", BIAAAAAA
+    .
+    end source code control
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

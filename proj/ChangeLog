@@ -1,0 +1,195 @@
+2006-09-26  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.29
+	- fix some minor miss to make it compile at Linux AS r4 (gcc3.4)
+	  without warnings.
+
+2006-06-27  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.28
+	- commented radsql.c#sql_get_socket#491 due to a difference
+	  behavior about TryEnterCriticalSection and pthread_mutex_trylock
+	  called within the same thread twice.
+	- just commented is NOT enough, we should NOT FORGET to call
+	  LeaveCriticalSection before the next try.
+
+2006-03-28  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.27
+	- add rad_static_assert into radmacros.h
+	- use rad_static_assert in RAD_Lock&RAD_Object
+
+2006-03-08  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.26
+	- fix rad_start/stop_heap_tracking reference counting bug.
+	  Now, they can be called by pair without bad effect.
+
+2006-03-07  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.25
+	- RAD_DBPool: Log failed SQL as warning message
+	- sqldrivers: rlm_sql_sybase: Do not ``use db'' unless
+	              dbname present
+
+2006-01-20  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.24
+	- correct some multi-platform conditions and gcc warnings
+
+2006-01-19  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.23
+	- minor changes on RAD_ShiftArray's overwrite semantics
+
+2006-01-16  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.22
+	- make rad_start/stop_heap_tracking reference counted
+
+2006-01-03  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.21
+	- add radarray#double-linked-ring-array and its test suite
+	- add radfwk#RAD_Util#RAD_LinkArray and test it on radrcp
+
+2005-12-23  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.20
+	- rewrite some lab program with radfwk
+	- test radfwk on IBM AIX 5.3 with gcc 2.95.3
+	- test radfwk on Win2000 with Visual C++ 6.0
+
+	* Revision 0.0.19
+	- rename radfwk2 to radfwk
+	- rename old radfwk to radfwk0, which is used as standalone
+	  source components
+
+2005-11-27  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.18
+	- radfwk2: A more featured C++ plug-in framework whose
+	           components are all inherited from RAD_Object
+                  that is to be used as a replacement of radfwk
+
+2005-11-21  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.17
+	- radsock/send_email.c: infinite mailbody supported
+	- radutil/radslist: enhanced
+
+2005-11-12  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.16
+	- radfwk/shift_array
+	- radfwk/Reactor
+	- radfwk/Event_Handler
+	- radfwk/radalloc
+	- lab/reactor
+
+2005-10-24  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.15
+	- radipc: fix some minor bugs, msgsnd/rcv return value revised
+	- lab/sysvipc: revised
+
+2005-10-23  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.14
+	- radipc: fix some minor bugs
+	- lab/sysvipc: revised, msgopn is removed
+
+2005-10-22  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.13
+	- radipc: open semantics
+	- lab/sysvipc: msgopn
+
+2005-10-21  Huanghao  <hhuang@cellcom.com.cn>
+
+	* Revision 0.0.12
+	- radipc
+	- lab/sysvipc
+
+2005-10-14  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.11
+	- lab/thread.thr_pool2: the more sophisticated thread pool
+	- lab/shiftarray: the self-contained header-only shift array
+	  template
+
+2005-10-13  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.10
+	- radarray and its test suite
+	- lab/thread.thr_pool: thread pool implement
+
+2005-10-12  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.9
+	- pthread simulated in Win32
+	- Sleep simulated in non-Win32
+	- lab/thread
+	- strRepl: string replacement
+	- strRepl test case
+
+2005-10-11  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.8
+	- add radfwk
+	  A C++ application framework which takes use of radutil and
+	  provides structured configuration load/save.
+	- lab/appfwk
+
+	* Revision 0.0.7
+	- compiled at unixware
+	- add test_token suite
+	- expose a powerful gettok function
+	- fixed a bug in radtoken.c
+	  1. make buf always null terminated
+	  2. restore buf offset when escape met
+
+2005-10-10  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.6
+	- radsock is presented
+	- lab/sendmail
+	- compiled at win32/sunos/linux
+
+2005-10-09  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.5
+	- radtoken
+	- radconffile
+	- radsql
+	- dbutil
+	- sqldrivers
+	- lab/sqltools
+
+2005-10-08  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.4
+	- strerror_r for GetLastError(Win32)
+	- dlopen/dlclose/dlsym/dlerror simulated in Win32
+	- RAD_SYMBOL/RAD_DLL/RAD_STATIC for user library
+	- test/dso. Samples of building DLL under various platform
+	- Some radutil and test case
+
+2005-09-30  Huanghao  <cxxfan@gmail.com>
+
+	* Revision 0.0.1 at yesterday
+	- Project layout
+	- Dependency arrangement
+	- Template tools
+	- Testing framework
+	- Building tools
+
+	* Revision 0.0.2 at 18:02
+	- Makefile for Visual C++
+	- Logging facility
+	- Heap tracking facility
+	- Document for idea prototype
+
+	* Revision 0.0.3
+	- Locking facility
+	- Add ChangeLog and TODO

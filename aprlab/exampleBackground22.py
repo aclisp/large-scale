@@ -18,4 +18,4 @@ stats = [proc.wait() for proc in procs]
 # check for results:
 for k, v in zip(repos, [explainStatus(stat) for stat in stats]):
     print k, v
-
+# THIS IS NOT BACKGROUND! THERE IS NO WAY IN PYTHON 2.2!

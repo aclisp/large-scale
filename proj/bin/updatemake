@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 temp=.FINSERT_TEMPFILE_$$
 makefile=Makefile

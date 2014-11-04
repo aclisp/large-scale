@@ -117,7 +117,7 @@ cannot_convert:
 int vradlog(int lvl, const char *fmt, va_list ap)
 {
     FILE *msgfd = NULL;
-    unsigned char *p;
+    char *p;
     char buffer[8192];
     char namebuf[1024];
     int len, len0;
@@ -245,7 +245,7 @@ int vradlog(int lvl, const char *fmt, va_list ap)
     /*
      *  Filter out characters not in Latin-1.
      */
-    for (p = (unsigned char *)buffer; *p != '\0'; p++) {
+    for (p = buffer; *p != '\0'; p++) {
         if (*p == '\r' || *p == '\n')
             *p = ' ';
         else if (*p < 32 || (*p >= 128 && *p <= 160))

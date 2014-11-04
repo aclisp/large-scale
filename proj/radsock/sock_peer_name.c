@@ -17,7 +17,7 @@ char* sock_peer_name(int fd, char* addrbuf, int* port)
 {
     struct sockaddr_in sockinfo;
     struct in_addr     address;
-    int                sockinfosize = sizeof(sockinfo);
+    socklen_t          sockinfosize = sizeof(sockinfo);
 
     // Get the peer address for the client socket
     getpeername(fd, (struct sockaddr *)&sockinfo, &sockinfosize);

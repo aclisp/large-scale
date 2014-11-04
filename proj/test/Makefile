@@ -15,7 +15,7 @@ CXX = g++
 AR = ar
 
 # Static linking libraries
-STATIC_LIBS = $(RAD_HOME)/lib/radutil.a
+STATIC_LIBS = $(RAD_HOME)/lib/libradutil.a
 
 # Dynamic linking libraries
 LIBS = #-lws2_32

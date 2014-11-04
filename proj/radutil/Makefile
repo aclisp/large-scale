@@ -25,7 +25,7 @@ INCS = -I$(RAD_HOME)
 
 # Executable output
 BIN =
-ARLIB = $(RAD_HOME)/lib/radutil.a
+ARLIB = $(RAD_HOME)/lib/libradutil.a
 
 # Intermedia objects
 OBJS = \

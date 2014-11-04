@@ -26,7 +26,7 @@ INCS = -I$(RAD_HOME) \
 
 # Executable output
 BIN =
-ARLIB = $(RAD_HOME)/lib/radsock.a
+ARLIB = $(RAD_HOME)/lib/libradsock.a
 
 # Intermedia objects
 OBJS = \
